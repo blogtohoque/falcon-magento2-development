@@ -21,6 +21,7 @@ use Magento\Framework\Registry;
  * Class Product
  *
  * @package Deity\Catalog\Model\Data
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Product extends AbstractExtensibleModel implements ProductInterface
 {
@@ -74,7 +75,6 @@ class Product extends AbstractExtensibleModel implements ProductInterface
             $data
         );
     }
-
 
     /**
      * @inheritdoc
@@ -240,7 +240,7 @@ class Product extends AbstractExtensibleModel implements ProductInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCustomAttributes(array $attributes)
     {
@@ -257,9 +257,7 @@ class Product extends AbstractExtensibleModel implements ProductInterface
     }
 
     /**
-     * Get product type id
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getTypeId(): string
     {
@@ -267,10 +265,7 @@ class Product extends AbstractExtensibleModel implements ProductInterface
     }
 
     /**
-     * Set product type id
-     *
-     * @param string $typeId
-     * @return ProductInterface
+     * @inheritdoc
      */
     public function setTypeId(string $typeId): ProductInterface
     {
