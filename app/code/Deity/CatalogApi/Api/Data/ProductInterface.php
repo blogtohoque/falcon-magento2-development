@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Deity\CatalogApi\Api\Data;
 
-use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Api\CustomAttributesDataInterface;
 
 /**
  * Interface Product
  *
  * @package Deity\CatalogApi\Api\Data
  */
-interface ProductInterface extends ExtensibleDataInterface
+interface ProductInterface extends CustomAttributesDataInterface
 {
     const SKU = 'sku';
 

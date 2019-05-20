@@ -3,4 +3,19 @@
     <type name="Deity\CatalogApi\Api\ProductConvertInterface">
         <plugin name="url_key_field" type="Deity\Catalog\Plugin\ProductConvertPluginExample" sortOrder="10" />
     </type>
+    <type name="Deity\Catalog\Model\Product\FilterProductCustomAttribute">
+        <arguments>
+            <argument name="blackList" xsi:type="array">
+                <item name="url_key" xsi:type="string">url_key</item>
+                <item name="category_ids" xsi:type="string">category_ids</item>
+                <item name="special_price" xsi:type="string">special_price</item>
+                <item name="special_from_date" xsi:type="string">special_from_date</item>
+                <item name="minimal_price" xsi:type="string">minimal_price</item>
+                <item name="tax_class_id" xsi:type="string">tax_class_id</item>
+                <item name="msrp_display_actual_price_type" xsi:type="string">msrp_display_actual_price_type</item>
+                <item name="required_options" xsi:type="string">required_options</item>
+                <item name="has_options" xsi:type="string">has_options</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

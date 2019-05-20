@@ -92,6 +92,10 @@ class ProductConvert implements ProductConvertInterface
         );
         Profiler::stop('__PRODUCT_LISTING_CONVERT_PRICE_CALC__');
 
+        $deityProduct->setCustomAttributes(
+            $product->getCustomAttributes()
+        );
+
         Profiler::stop('__PRODUCT_LISTING_CONVERT__');
         return $deityProduct;
     }

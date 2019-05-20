@@ -3,9 +3,19 @@ declare(strict_types=1);
 
 namespace Deity\Catalog\Model\Data;
 
+use Deity\Catalog\Model\Product\FilterProductCustomAttribute;
+use Deity\CatalogApi\Api\Data\ProductExtensionInterface;
 use Deity\CatalogApi\Api\Data\ProductInterface;
 use Deity\CatalogApi\Api\Data\ProductPriceInterface;
+use Magento\Eav\Model\Config;
+use Magento\Framework\Api\AttributeValue;
+use Magento\Framework\Api\AttributeValueFactory;
+use Magento\Framework\Api\ExtensionAttributesFactory;
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 
 /**
  * Class Product
@@ -19,6 +29,52 @@ class Product extends AbstractExtensibleModel implements ProductInterface
      * @var ProductPriceInterface
      */
     private $priceObject;
+
+    /**
+     * @var Config
+     */
+    private $eavConfig;
+
+    /**
+     * @var FilterProductCustomAttribute
+     */
+    private $filterCustomAttribute;
+
+    /**
+     * @param Context $context
+     * @param Registry $registry
+     * @param ExtensionAttributesFactory $extensionFactory
+     * @param AttributeValueFactory $customAttributeFactory
+     * @param Config $eavConfig
+     * @param FilterProductCustomAttribute $filterCustomAttribute
+     * @param AbstractResource $resource
+     * @param AbstractDb $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        ExtensionAttributesFactory $extensionFactory,
+        AttributeValueFactory $customAttributeFactory,
+        Config $eavConfig,
+        FilterProductCustomAttribute $filterCustomAttribute,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = []
+    ) {
+        $this->eavConfig = $eavConfig;
+        $this->filterCustomAttribute = $filterCustomAttribute;
+        parent::__construct(
+            $context,
+            $registry,
+            $extensionFactory,
+            $customAttributeFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+    }
+
 
     /**
      * @inheritdoc
@@ -106,7 +162,7 @@ class Product extends AbstractExtensibleModel implements ProductInterface
      * @inheritdoc
      */
     public function setExtensionAttributes(
-        \Deity\CatalogApi\Api\Data\ProductExtensionInterface $extensionAttributes
+        ProductExtensionInterface $extensionAttributes
     ): ProductInterface {
         $this->_setExtensionAttributes($extensionAttributes);
         return $this;
@@ -143,6 +199,60 @@ class Product extends AbstractExtensibleModel implements ProductInterface
     public function setPrice(ProductPriceInterface $productPrice): ProductInterface
     {
         $this->priceObject = $productPrice;
+        return $this;
+    }
+
+    /**
+     * Get a list of custom attribute codes that belongs to product attribute set.
+     *
+     * If attribute set not specified for product will return all product attribute codes
+     *
+     * @return string[]
+     */
+    protected function getCustomAttributesCodes()
+    {
+        if ($this->customAttributesCodes === null) {
+            $this->customAttributesCodes = array_keys(
+                $this->filterCustomAttribute->execute(
+                    $this->eavConfig->getEntityAttributes(
+                        \Magento\Catalog\Model\Product::ENTITY,
+                        $this
+                    )
+                )
+            );
+        }
+
+        return $this->customAttributesCodes;
+    }
+
+    /**
+     * Retrieve custom attributes values.
+     *
+     * @return \Magento\Framework\Api\AttributeInterface[]
+     */
+    public function getCustomAttributes()
+    {
+        if (!isset($this->_data[self::CUSTOM_ATTRIBUTES])) {
+            $this->_data[self::CUSTOM_ATTRIBUTES] = [];
+        }
+
+        return array_values($this->_data[self::CUSTOM_ATTRIBUTES]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCustomAttributes(array $attributes)
+    {
+        /** @var AttributeValue $attributeObject */
+        foreach ($attributes as $attributeObject) {
+            $customAttributesCodes = $this->getCustomAttributesCodes();
+
+            /* If key corresponds to custom attribute code, populate custom attributes */
+            if (in_array($attributeObject->getAttributeCode(), $customAttributesCodes)) {
+                $this->_data[self::CUSTOM_ATTRIBUTES][$attributeObject->getAttributeCode()] = $attributeObject;
+            }
+        }
         return $this;
     }
 }
