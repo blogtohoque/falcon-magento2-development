@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace Deity\Catalog\Model\Product;
 
+use Deity\CatalogApi\Model\FilterProductCustomAttributeInterface;
+
 /**
  * Class FilterProductCustomAttribute
  *
  * @package Deity\Catalog\Model\Product
  */
-class FilterProductCustomAttribute
+class FilterProductCustomAttribute implements FilterProductCustomAttributeInterface
 {
     /**
      * @var array

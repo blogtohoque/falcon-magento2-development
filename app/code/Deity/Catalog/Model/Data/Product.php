@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Deity\Catalog\Model\Data;
 
-use Deity\Catalog\Model\Product\FilterProductCustomAttribute;
 use Deity\CatalogApi\Api\Data\ProductExtensionInterface;
 use Deity\CatalogApi\Api\Data\ProductInterface;
 use Deity\CatalogApi\Api\Data\ProductPriceInterface;
+use Deity\CatalogApi\Model\FilterProductCustomAttributeInterface;
 use Magento\Eav\Model\Config;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\AttributeValueFactory;
@@ -37,7 +37,7 @@ class Product extends AbstractExtensibleModel implements ProductInterface
     private $eavConfig;
 
     /**
-     * @var FilterProductCustomAttribute
+     * @var FilterProductCustomAttributeInterface
      */
     private $filterCustomAttribute;
 
@@ -47,7 +47,7 @@ class Product extends AbstractExtensibleModel implements ProductInterface
      * @param ExtensionAttributesFactory $extensionFactory
      * @param AttributeValueFactory $customAttributeFactory
      * @param Config $eavConfig
-     * @param FilterProductCustomAttribute $filterCustomAttribute
+     * @param FilterProductCustomAttributeInterface $filterCustomAttribute
      * @param AbstractResource $resource
      * @param AbstractDb $resourceCollection
      * @param array $data
@@ -58,7 +58,7 @@ class Product extends AbstractExtensibleModel implements ProductInterface
         ExtensionAttributesFactory $extensionFactory,
         AttributeValueFactory $customAttributeFactory,
         Config $eavConfig,
-        FilterProductCustomAttribute $filterCustomAttribute,
+        FilterProductCustomAttributeInterface $filterCustomAttribute,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
         array $data = []
