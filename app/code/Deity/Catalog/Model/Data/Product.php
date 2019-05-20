@@ -255,4 +255,26 @@ class Product extends AbstractExtensibleModel implements ProductInterface
         }
         return $this;
     }
+
+    /**
+     * Get product type id
+     *
+     * @return string
+     */
+    public function getTypeId(): string
+    {
+        return (string)$this->getData(self::TYPE_ID);
+    }
+
+    /**
+     * Set product type id
+     *
+     * @param string $typeId
+     * @return ProductInterface
+     */
+    public function setTypeId(string $typeId): ProductInterface
+    {
+        $this->setData(self::TYPE_ID, $typeId);
+        return $this;
+    }
 }
