@@ -61,7 +61,6 @@ class ProductDetail extends AbstractExtensibleModel implements ProductDetailInte
     ) {
         $this->filterCustomAttribute = $filterCustomAttribute;
         $this->eavConfig = $config;
-        $this->customAttributeFactory = $customAttributeFactory;
         parent::__construct(
             $context,
             $registry,
