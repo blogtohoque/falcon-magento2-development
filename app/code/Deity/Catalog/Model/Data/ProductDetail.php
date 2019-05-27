@@ -448,6 +448,8 @@ class ProductDetail implements ProductDetailInterface
     }
 
     /**
+     * Get Product description
+     *
      * @return string
      */
     public function getDescription(): string

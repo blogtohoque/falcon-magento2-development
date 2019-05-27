@@ -36,6 +36,8 @@ interface ProductDetailInterface extends CustomAttributesDataInterface
     public function getId(): int;
 
     /**
+     * Get product description
+     *
      * @return string
      */
     public function getDescription(): string;
