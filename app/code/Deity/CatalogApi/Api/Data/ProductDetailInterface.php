@@ -3,18 +3,19 @@ declare(strict_types=1);
 
 namespace Deity\CatalogApi\Api\Data;
 
-use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Api\CustomAttributesDataInterface;
 
 /**
  * Interface ProductDetailInterface
  *
  * @package Deity\CatalogApi\Api\Data
  */
-interface ProductDetailInterface extends ExtensibleDataInterface
+interface ProductDetailInterface extends CustomAttributesDataInterface
 {
     const ID_FIELD_KEY = 'id';
     const SKU_FIELD_KEY = 'sku';
     const NAME_FIELD_KEY = 'name';
+    const DESCRIPTION_FIELD_KEY = 'description';
     const URL_PATH_FIELD_KEY = 'url_path';
     const IMAGE_FIELD_KEY = 'image';
     const IMAGE_RESIZED_FIELD_KEY = 'image_resized';
@@ -33,6 +34,11 @@ interface ProductDetailInterface extends ExtensibleDataInterface
      * @return int
      */
     public function getId(): int;
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string;
 
     /**
      * Get product price object

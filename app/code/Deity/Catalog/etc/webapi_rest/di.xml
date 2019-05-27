@@ -12,6 +12,11 @@
                 <item name="msrp_display_actual_price_type" xsi:type="string">msrp_display_actual_price_type</item>
                 <item name="required_options" xsi:type="string">required_options</item>
                 <item name="has_options" xsi:type="string">has_options</item>
+                <item name="image" xsi:type="string">image</item>
+                <item name="small_image" xsi:type="string">small_image</item>
+                <item name="thumbnail" xsi:type="string">thumbnail</item>
+                <item name="options_container" xsi:type="string">options_container</item>
+                <item name="description" xsi:type="string">description</item>
             </argument>
         </arguments>
     </type>

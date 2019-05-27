@@ -7,6 +7,10 @@ use Deity\CatalogApi\Api\Data\ProductDetailExtensionInterface;
 use Deity\CatalogApi\Api\Data\ProductDetailInterface;
 use Deity\CatalogApi\Api\Data\ProductPriceInterface;
 use Deity\CatalogApi\Api\Data\ProductStockInterface;
+use Deity\CatalogApi\Model\FilterProductCustomAttributeInterface;
+use Magento\Eav\Model\Config;
+use Magento\Framework\Api\AttributeInterface;
+use Magento\Framework\Api\AttributeInterfaceFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 
 /**
@@ -21,6 +25,11 @@ class ProductDetail implements ProductDetailInterface
      * @var int
      */
     private $id;
+
+    /**
+     * @var string
+     */
+    private $description;
 
     /**
      * @var string
@@ -98,8 +107,34 @@ class ProductDetail implements ProductDetailInterface
     private $extensionAttributesFactory;
 
     /**
+     * @var AttributeInterface[]
+     */
+    private $customAttributes = [];
+
+    /**
+     * @var AttributeInterfaceFactory
+     */
+    private $customAttributeFactory;
+
+    /**
+     * @var string[]
+     */
+    private $customAttributesCodes;
+
+    /**
+     * @var Config
+     */
+    private $eavConfig;
+
+    /**
+     * @var FilterProductCustomAttributeInterface
+     */
+    private $filterCustomAttribute;
+
+    /**
      * ProductDetail constructor.
      * @param int $id
+     * @param string $description
      * @param string $image
      * @param string $image_resized
      * @param int $is_salable
@@ -111,12 +146,16 @@ class ProductDetail implements ProductDetailInterface
      * @param ProductPriceInterface $price
      * @param ProductStockInterface $stock
      * @param ExtensionAttributesFactory $extensionAttributesFactory
+     * @param AttributeInterfaceFactory $customAttributeFactory
+     * @param FilterProductCustomAttributeInterface $filterCustomAttribute
+     * @param Config $config
      * @param array $tier_prices
      * @param array $options
      * @param array $product_links
      */
     public function __construct(
         int $id,
+        string $description,
         string $image,
         string $image_resized,
         int $is_salable,
@@ -128,10 +167,16 @@ class ProductDetail implements ProductDetailInterface
         ProductPriceInterface $price,
         ProductStockInterface $stock,
         ExtensionAttributesFactory $extensionAttributesFactory,
+        AttributeInterfaceFactory $customAttributeFactory,
+        FilterProductCustomAttributeInterface $filterCustomAttribute,
+        Config $config,
         array $tier_prices,
         array $options = [],
         array $product_links = []
     ) {
+        $this->description = $description;
+        $this->filterCustomAttribute = $filterCustomAttribute;
+        $this->eavConfig = $config;
         $this->options = $options;
         $this->productLinks = $product_links;
         $this->stockObject = $stock;
@@ -139,6 +184,7 @@ class ProductDetail implements ProductDetailInterface
         $this->priceObject = $price;
         $this->urlPath = $url_path;
         $this->extensionAttributesFactory = $extensionAttributesFactory;
+        $this->customAttributeFactory = $customAttributeFactory;
         $this->mediaGallery = $media_gallery_sizes;
         $this->id = $id;
         $this->image = $image;
@@ -313,5 +359,99 @@ class ProductDetail implements ProductDetailInterface
     public function getOptions(): array
     {
         return $this->options;
+    }
+
+    /**
+     * Get an attribute value.
+     *
+     * @param string $attributeCode
+     * @return \Magento\Framework\Api\AttributeInterface|null
+     */
+    public function getCustomAttribute($attributeCode)
+    {
+        return $this->customAttributes[$attributeCode] ?? null;
+    }
+
+    /**
+     * Set an attribute value for a given attribute code
+     *
+     * @param string $attributeCode
+     * @param mixed $attributeValue
+     * @return $this
+     */
+    public function setCustomAttribute($attributeCode, $attributeValue)
+    {
+        $customAttributesCodes = $this->getCustomAttributesCodes();
+        /* If key corresponds to custom attribute code, populate custom attributes */
+        if (in_array($attributeCode, $customAttributesCodes)) {
+            /** @var AttributeInterface $attribute */
+            $attribute = $this->customAttributeFactory->create();
+            $attribute->setAttributeCode($attributeCode)
+                ->setValue($attributeValue);
+            $this->customAttributes[$attributeCode] = $attribute;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve custom attributes values.
+     *
+     * @return \Magento\Framework\Api\AttributeInterface[]
+     */
+    public function getCustomAttributes()
+    {
+        return $this->customAttributes;
+    }
+
+    /**
+     * Set array of custom attributes
+     *
+     * @param \Magento\Framework\Api\AttributeInterface[] $attributes
+     * @return $this
+     * @throws \LogicException
+     */
+    public function setCustomAttributes(array $attributes)
+    {
+        $customAttributesCodes = $this->getCustomAttributesCodes();
+        /** @var AttributeInterface $attributeObject */
+        foreach ($attributes as $attributeObject) {
+            /* If key corresponds to custom attribute code, populate custom attributes */
+            if (in_array($attributeObject->getAttributeCode(), $customAttributesCodes)) {
+                $this->customAttributes[$attributeObject->getAttributeCode()] = $attributeObject;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Get a list of custom attribute codes that belongs to product attribute set.
+     *
+     * If attribute set not specified for product will return all product attribute codes
+     *
+     * @return string[]
+     */
+    private function getCustomAttributesCodes()
+    {
+        if ($this->customAttributesCodes === null) {
+            $this->customAttributesCodes = array_keys(
+                $this->filterCustomAttribute->execute(
+                    $this->eavConfig->getEntityAttributes(
+                        \Magento\Catalog\Model\Product::ENTITY,
+                        $this
+                    )
+                )
+            );
+        }
+
+        return $this->customAttributesCodes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 }

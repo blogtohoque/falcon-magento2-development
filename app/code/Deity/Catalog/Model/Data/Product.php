@@ -244,10 +244,10 @@ class Product extends AbstractExtensibleModel implements ProductInterface
      */
     public function setCustomAttributes(array $attributes)
     {
+        $customAttributesCodes = $this->getCustomAttributesCodes();
+
         /** @var AttributeValue $attributeObject */
         foreach ($attributes as $attributeObject) {
-            $customAttributesCodes = $this->getCustomAttributesCodes();
-
             /* If key corresponds to custom attribute code, populate custom attributes */
             if (in_array($attributeObject->getAttributeCode(), $customAttributesCodes)) {
                 $this->_data[self::CUSTOM_ATTRIBUTES][$attributeObject->getAttributeCode()] = $attributeObject;

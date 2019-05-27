@@ -122,6 +122,7 @@ class ProductRepository implements ProductRepositoryInterface
             [
                 ProductDetailInterface::ID_FIELD_KEY => (int)$productObject->getId(),
                 ProductDetailInterface::SKU_FIELD_KEY => (string)$productObject->getSku(),
+                ProductDetailInterface::DESCRIPTION_FIELD_KEY => (string)$productObject->getDescription(),
                 ProductDetailInterface::IS_SALABLE_FIELD_KEY => (int)$productObject->getIsSalable(),
                 ProductDetailInterface::NAME_FIELD_KEY => (string)$productObject->getName(),
                 ProductDetailInterface::TYPE_ID_FIELD_KEY => (string)$productObject->getTypeId(),
@@ -135,6 +136,8 @@ class ProductRepository implements ProductRepositoryInterface
                 ProductDetailInterface::PRODUCT_LINKS_FIELD_KEY => $productLinks
             ]
         );
+
+        $productDetail->setCustomAttributes($productObject->getCustomAttributes());
 
         $this->productMapper->map($productObject, $productDetail);
 
