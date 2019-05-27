@@ -36,11 +36,27 @@ interface ProductDetailInterface extends CustomAttributesDataInterface
     public function getId(): int;
 
     /**
+     * Set product id
+     *
+     * @param int $id
+     * @return ProductDetailInterface
+     */
+    public function setId($id);
+
+    /**
      * Get product description
      *
      * @return string
      */
     public function getDescription(): string;
+
+    /**
+     * Set product description
+     *
+     * @param string $description
+     * @return ProductDetailInterface
+     */
+    public function setDescription(string $description): ProductDetailInterface;
 
     /**
      * Get product price object
@@ -50,6 +66,14 @@ interface ProductDetailInterface extends CustomAttributesDataInterface
     public function getPrice(): ProductPriceInterface;
 
     /**
+     * Set product price
+     *
+     * @param ProductPriceInterface $price
+     * @return ProductDetailInterface
+     */
+    public function setPrice(ProductPriceInterface $price): ProductDetailInterface;
+
+    /**
      * Get product sku
      *
      * @return string
@@ -57,11 +81,35 @@ interface ProductDetailInterface extends CustomAttributesDataInterface
     public function getSku(): string;
 
     /**
+     * Set product sku
+     *
+     * @param string $sku
+     * @return ProductDetailInterface
+     */
+    public function setSku(string $sku): ProductDetailInterface;
+
+    /**
      * Get product name
      *
      * @return string
      */
     public function getName(): string;
+
+    /**
+     * Set product name
+     *
+     * @param string $name
+     * @return ProductDetailInterface
+     */
+    public function setName(string $name): ProductDetailInterface;
+
+    /**
+     * Set product image
+     *
+     * @param string $image
+     * @return ProductDetailInterface
+     */
+    public function setImage(string $image): ProductDetailInterface;
 
     /**
      * Get full size product image url
@@ -78,11 +126,27 @@ interface ProductDetailInterface extends CustomAttributesDataInterface
     public function getImageResized(): string;
 
     /**
+     * Set image resized
+     *
+     * @param string $resizedImage
+     * @return ProductDetailInterface
+     */
+    public function setImageResized(string $resizedImage): ProductDetailInterface;
+
+    /**
      * Get product type id
      *
      * @return string
      */
     public function getTypeId(): string;
+
+    /**
+     * Set type id
+     *
+     * @param string $typeId
+     * @return ProductDetailInterface
+     */
+    public function setTypeId(string $typeId): ProductDetailInterface;
 
     /**
      * Get if product is salable
@@ -92,6 +156,14 @@ interface ProductDetailInterface extends CustomAttributesDataInterface
     public function getIsSalable(): int;
 
     /**
+     * Set product is salable flag
+     *
+     * @param int $isSalable
+     * @return ProductDetailInterface
+     */
+    public function setIsSalable(int $isSalable): ProductDetailInterface;
+
+    /**
      * Get media AutocompleteItemExtensionInterfacegallery items
      *
      * @return \Deity\CatalogApi\Api\Data\GalleryMediaEntrySizeInterface[]
@@ -99,11 +171,26 @@ interface ProductDetailInterface extends CustomAttributesDataInterface
     public function getMediaGallerySizes(): array;
 
     /**
+     * Set media gallery
+     *
+     * @param \Deity\CatalogApi\Api\Data\GalleryMediaEntrySizeInterface[] $mediaGallerySizes
+     * @return ProductDetailInterface
+     */
+    public function setMediaGallerySizes(array $mediaGallerySizes): ProductDetailInterface;
+    /**
      * Get product url path
      *
      * @return string
      */
     public function getUrlPath(): string;
+
+    /**
+     * Set url path
+     *
+     * @param string $urlPath
+     * @return ProductDetailInterface
+     */
+    public function setUrlPath(string $urlPath): ProductDetailInterface;
 
     /**
      * Gets list of product tier prices
@@ -113,11 +200,27 @@ interface ProductDetailInterface extends CustomAttributesDataInterface
     public function getTierPrices();
 
     /**
+     * Set product tier prices
+     *
+     * @param \Magento\Catalog\Api\Data\ProductTierPriceInterface[] $tierPrices
+     * @return ProductDetailInterface
+     */
+    public function setTierPrices(array $tierPrices): ProductDetailInterface;
+
+    /**
      * Get stock info
      *
      * @return \Deity\CatalogApi\Api\Data\ProductStockInterface
      */
     public function getStock(): ProductStockInterface;
+
+    /**
+     * Set product stock
+     *
+     * @param ProductStockInterface $stock
+     * @return ProductDetailInterface
+     */
+    public function setStock(ProductStockInterface $stock): ProductDetailInterface;
 
     /**
      * Get product links
@@ -127,11 +230,27 @@ interface ProductDetailInterface extends CustomAttributesDataInterface
     public function getProductLinks(): array;
 
     /**
+     * Set product links
+     *
+     * @param \Magento\Catalog\Api\Data\ProductLinkInterface[] $links
+     * @return ProductDetailInterface
+     */
+    public function setProductLinks(array $links): ProductDetailInterface;
+
+    /**
      * Get product options
      *
      * @return \Magento\Catalog\Api\Data\ProductCustomOptionInterface[]|null
      */
     public function getOptions(): array;
+
+    /**
+     * Set product options
+     *
+     * @param \Magento\Catalog\Api\Data\ProductCustomOptionInterface[] $options
+     * @return ProductDetailInterface
+     */
+    public function setOptions(array $options): ProductDetailInterface;
 
     /**
      * Get extension attributes

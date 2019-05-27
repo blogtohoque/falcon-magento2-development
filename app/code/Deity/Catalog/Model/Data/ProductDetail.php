@@ -10,117 +10,22 @@ use Deity\CatalogApi\Api\Data\ProductStockInterface;
 use Deity\CatalogApi\Model\FilterProductCustomAttributeInterface;
 use Magento\Eav\Model\Config;
 use Magento\Framework\Api\AttributeInterface;
-use Magento\Framework\Api\AttributeInterfaceFactory;
+use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 
 /**
  * Class ProductDetail
  *
  * @package Deity\Catalog\Model\Data
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ProductDetail implements ProductDetailInterface
+class ProductDetail extends AbstractExtensibleModel implements ProductDetailInterface
 {
-
-    /**
-     * @var int
-     */
-    private $id;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var string
-     */
-    private $image;
-
-    /**
-     * @var string
-     */
-    private $imageResized;
-
-    /**
-     * @var int
-     */
-    private $isSalable;
-
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var string
-     */
-    private $sku;
-
-    /**
-     * @var string
-     */
-    private $typeId;
-
-    /**
-     * @var array
-     */
-    private $mediaGallery;
-
-    /**
-     * @var string
-     */
-    private $urlPath;
-
-    /**
-     * @var ProductPriceInterface
-     */
-    private $priceObject;
-
-    /**
-     * @var ProductStockInterface
-     */
-    private $stockObject;
-
-    /**
-     * @var \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface[]
-     */
-    private $tierPrices;
-
-    /**
-     * @var \Magento\Catalog\Api\Data\ProductCustomOptionInterface[]
-     */
-    private $options;
-
-    /**
-     * @var \Magento\Catalog\Api\Data\ProductLinkInterface[]
-     */
-    private $productLinks;
-
-    /**
-     * @var ProductDetailExtensionInterface
-     */
-    private $extensionAttributes;
-
-    /**
-     * @var ExtensionAttributesFactory
-     */
-    private $extensionAttributesFactory;
-
-    /**
-     * @var AttributeInterface[]
-     */
-    private $customAttributes = [];
-
-    /**
-     * @var AttributeInterfaceFactory
-     */
-    private $customAttributeFactory;
-
-    /**
-     * @var string[]
-     */
-    private $customAttributesCodes;
-
     /**
      * @var Config
      */
@@ -133,66 +38,39 @@ class ProductDetail implements ProductDetailInterface
 
     /**
      * ProductDetail constructor.
-     * @param int $id
-     * @param string $description
-     * @param string $image
-     * @param string $image_resized
-     * @param int $is_salable
-     * @param string $name
-     * @param string $sku
-     * @param string $url_path
-     * @param string $type_id
-     * @param array $media_gallery_sizes
-     * @param ProductPriceInterface $price
-     * @param ProductStockInterface $stock
-     * @param ExtensionAttributesFactory $extensionAttributesFactory
-     * @param AttributeInterfaceFactory $customAttributeFactory
+     * @param ExtensionAttributesFactory $extensionFactory
+     * @param AttributeValueFactory $customAttributeFactory
      * @param FilterProductCustomAttributeInterface $filterCustomAttribute
      * @param Config $config
-     * @param array $tier_prices
-     * @param array $options
-     * @param array $product_links
+     * @param Context $context
+     * @param Registry $registry
+     * @param AbstractResource|null $resource
+     * @param AbstractDb|null $resourceCollection
+     * @param array $data
      */
     public function __construct(
-        int $id,
-        string $description,
-        string $image,
-        string $image_resized,
-        int $is_salable,
-        string $name,
-        string $sku,
-        string $url_path,
-        string $type_id,
-        array $media_gallery_sizes,
-        ProductPriceInterface $price,
-        ProductStockInterface $stock,
-        ExtensionAttributesFactory $extensionAttributesFactory,
-        AttributeInterfaceFactory $customAttributeFactory,
+        ExtensionAttributesFactory $extensionFactory,
+        AttributeValueFactory $customAttributeFactory,
         FilterProductCustomAttributeInterface $filterCustomAttribute,
         Config $config,
-        array $tier_prices,
-        array $options = [],
-        array $product_links = []
+        Context $context,
+        Registry $registry,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = []
     ) {
-        $this->description = $description;
         $this->filterCustomAttribute = $filterCustomAttribute;
         $this->eavConfig = $config;
-        $this->options = $options;
-        $this->productLinks = $product_links;
-        $this->stockObject = $stock;
-        $this->tierPrices = $tier_prices;
-        $this->priceObject = $price;
-        $this->urlPath = $url_path;
-        $this->extensionAttributesFactory = $extensionAttributesFactory;
         $this->customAttributeFactory = $customAttributeFactory;
-        $this->mediaGallery = $media_gallery_sizes;
-        $this->id = $id;
-        $this->image = $image;
-        $this->imageResized = $image_resized;
-        $this->isSalable = $is_salable;
-        $this->name = $name;
-        $this->sku = $sku;
-        $this->typeId = $type_id;
+        parent::__construct(
+            $context,
+            $registry,
+            $extensionFactory,
+            $customAttributeFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -202,7 +80,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getSku(): string
     {
-        return $this->sku;
+        return (string)$this->getData(self::SKU_FIELD_KEY);
     }
 
     /**
@@ -212,7 +90,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getName(): string
     {
-        return $this->name;
+        return (string)$this->getData(self::NAME_FIELD_KEY);
     }
 
     /**
@@ -222,7 +100,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getImage(): string
     {
-        return $this->image;
+        return (string)$this->getData(self::IMAGE_FIELD_KEY);
     }
 
     /**
@@ -232,7 +110,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getImageResized(): string
     {
-        return $this->imageResized;
+        return (string)$this->getData(self::IMAGE_RESIZED_FIELD_KEY);
     }
 
     /**
@@ -242,7 +120,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getTypeId(): string
     {
-        return $this->typeId;
+        return (string)$this->getData(self::TYPE_ID_FIELD_KEY);
     }
 
     /**
@@ -252,7 +130,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getIsSalable(): int
     {
-        return $this->isSalable;
+        return (int)$this->getData(self::IS_SALABLE_FIELD_KEY);
     }
 
     /**
@@ -262,7 +140,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getId(): int
     {
-        return $this->id;
+        return (int)$this->getData(self::ID_FIELD_KEY);
     }
 
     /**
@@ -272,7 +150,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getMediaGallerySizes(): array
     {
-        return $this->mediaGallery;
+        return $this->getData(self::MEDIA_GALLERY_FIELD_KEY);
     }
 
     /**
@@ -308,7 +186,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getUrlPath(): string
     {
-        return $this->urlPath;
+        return (string)$this->getData(self::URL_PATH_FIELD_KEY);
     }
 
     /**
@@ -318,7 +196,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getPrice(): ProductPriceInterface
     {
-        return $this->priceObject;
+        return $this->getData(self::PRICE_FIELD_KEY);
     }
 
     /**
@@ -328,7 +206,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getTierPrices()
     {
-        return $this->tierPrices;
+        return $this->getData(self::TIER_PRICES_FIELD_KEY);
     }
 
     /**
@@ -338,7 +216,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getStock(): ProductStockInterface
     {
-        return $this->stockObject;
+        return $this->getData(self::STOCK_FIELD_KEY);
     }
 
     /**
@@ -348,7 +226,10 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getProductLinks(): array
     {
-        return $this->productLinks;
+        if (!isset($this->_data[self::PRODUCT_LINKS_FIELD_KEY])) {
+            $this->_data[self::PRODUCT_LINKS_FIELD_KEY] = [];
+        }
+        return $this->_data[self::PRODUCT_LINKS_FIELD_KEY];
     }
 
     /**
@@ -358,7 +239,10 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getOptions(): array
     {
-        return $this->options;
+        if (!isset($this->_data[self::OPTIONS_FIELD_KEY])) {
+            $this->_data[self::OPTIONS_FIELD_KEY] = [];
+        }
+        return $this->_data[self::OPTIONS_FIELD_KEY];
     }
 
     /**
@@ -369,7 +253,7 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getCustomAttribute($attributeCode)
     {
-        return $this->customAttributes[$attributeCode] ?? null;
+        return $this->_data[self::CUSTOM_ATTRIBUTES][$attributeCode] ?? null;
     }
 
     /**
@@ -388,7 +272,7 @@ class ProductDetail implements ProductDetailInterface
             $attribute = $this->customAttributeFactory->create();
             $attribute->setAttributeCode($attributeCode)
                 ->setValue($attributeValue);
-            $this->customAttributes[$attributeCode] = $attribute;
+            $this->_data[self::CUSTOM_ATTRIBUTES][$attributeCode] = $attribute;
         }
 
         return $this;
@@ -401,7 +285,11 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getCustomAttributes()
     {
-        return $this->customAttributes;
+        if (!isset($this->_data[self::CUSTOM_ATTRIBUTES])) {
+            $this->_data[self::CUSTOM_ATTRIBUTES] = [];
+        }
+
+        return array_values($this->_data[self::CUSTOM_ATTRIBUTES]);
     }
 
     /**
@@ -418,7 +306,7 @@ class ProductDetail implements ProductDetailInterface
         foreach ($attributes as $attributeObject) {
             /* If key corresponds to custom attribute code, populate custom attributes */
             if (in_array($attributeObject->getAttributeCode(), $customAttributesCodes)) {
-                $this->customAttributes[$attributeObject->getAttributeCode()] = $attributeObject;
+                $this->_data[self::CUSTOM_ATTRIBUTES][$attributeObject->getAttributeCode()] = $attributeObject;
             }
         }
         return $this;
@@ -431,7 +319,7 @@ class ProductDetail implements ProductDetailInterface
      *
      * @return string[]
      */
-    private function getCustomAttributesCodes()
+    protected function getCustomAttributesCodes()
     {
         if ($this->customAttributesCodes === null) {
             $this->customAttributesCodes = array_keys(
@@ -454,6 +342,174 @@ class ProductDetail implements ProductDetailInterface
      */
     public function getDescription(): string
     {
-        return $this->description;
+        return (string)$this->getData(self::DESCRIPTION_FIELD_KEY);
+    }
+
+    /**
+     * Set product description
+     *
+     * @param string $description
+     * @return ProductDetailInterface
+     */
+    public function setDescription(string $description): ProductDetailInterface
+    {
+        $this->setData(self::DESCRIPTION_FIELD_KEY, $description);
+        return $this;
+    }
+
+    /**
+     * Set product price
+     *
+     * @param ProductPriceInterface $price
+     * @return ProductDetailInterface
+     */
+    public function setPrice(ProductPriceInterface $price): ProductDetailInterface
+    {
+        $this->setData(self::PRICE_FIELD_KEY, $price);
+        return $this;
+    }
+
+    /**
+     * Set product sku
+     *
+     * @param string $sku
+     * @return ProductDetailInterface
+     */
+    public function setSku(string $sku): ProductDetailInterface
+    {
+        $this->setData(self::SKU_FIELD_KEY, $sku);
+        return $this;
+    }
+
+    /**
+     * Set product name
+     *
+     * @param string $name
+     * @return ProductDetailInterface
+     */
+    public function setName(string $name): ProductDetailInterface
+    {
+        $this->setData(self::NAME_FIELD_KEY, $name);
+        return $this;
+    }
+
+    /**
+     * Set product image
+     *
+     * @param string $image
+     * @return ProductDetailInterface
+     */
+    public function setImage(string $image): ProductDetailInterface
+    {
+        $this->setData(self::IMAGE_FIELD_KEY, $image);
+        return $this;
+    }
+
+    /**
+     * Set image resized
+     *
+     * @param string $resizedImage
+     * @return ProductDetailInterface
+     */
+    public function setImageResized(string $resizedImage): ProductDetailInterface
+    {
+        $this->setData(self::IMAGE_RESIZED_FIELD_KEY, $resizedImage);
+        return $this;
+    }
+
+    /**
+     * Set type id
+     *
+     * @param string $typeId
+     * @return ProductDetailInterface
+     */
+    public function setTypeId(string $typeId): ProductDetailInterface
+    {
+        $this->setData(self::TYPE_ID_FIELD_KEY, $typeId);
+        return $this;
+    }
+
+    /**
+     * Set product is salable flag
+     *
+     * @param int $isSalable
+     * @return ProductDetailInterface
+     */
+    public function setIsSalable(int $isSalable): ProductDetailInterface
+    {
+        $this->setData(self::IS_SALABLE_FIELD_KEY, $isSalable);
+        return $this;
+    }
+
+    /**
+     * Set media gallery
+     *
+     * @param \Deity\CatalogApi\Api\Data\GalleryMediaEntrySizeInterface[] $mediaGallerySizes
+     * @return ProductDetailInterface
+     */
+    public function setMediaGallerySizes(array $mediaGallerySizes): ProductDetailInterface
+    {
+        $this->setData(self::MEDIA_GALLERY_FIELD_KEY, $mediaGallerySizes);
+        return $this;
+    }
+
+    /**
+     * Set url path
+     *
+     * @param string $urlPath
+     * @return ProductDetailInterface
+     */
+    public function setUrlPath(string $urlPath): ProductDetailInterface
+    {
+        $this->setData(self::URL_PATH_FIELD_KEY, $urlPath);
+        return $this;
+    }
+
+    /**
+     * Set product tier prices
+     *
+     * @param \Magento\Catalog\Api\Data\ProductTierPriceInterface[] $tierPrices
+     * @return ProductDetailInterface
+     */
+    public function setTierPrices(array $tierPrices): ProductDetailInterface
+    {
+        $this->setData(self::TIER_PRICES_FIELD_KEY, $tierPrices);
+        return $this;
+    }
+
+    /**
+     * Set product stock
+     *
+     * @param ProductStockInterface $stock
+     * @return ProductDetailInterface
+     */
+    public function setStock(ProductStockInterface $stock): ProductDetailInterface
+    {
+        $this->setData(self::STOCK_FIELD_KEY, $stock);
+        return $this;
+    }
+
+    /**
+     * Set product links
+     *
+     * @param \Magento\Catalog\Api\Data\ProductLinkInterface[] $links
+     * @return ProductDetailInterface
+     */
+    public function setProductLinks(array $links): ProductDetailInterface
+    {
+        $this->setData(self::PRODUCT_LINKS_FIELD_KEY, $links);
+        return $this;
+    }
+
+    /**
+     * Set product options
+     *
+     * @param \Magento\Catalog\Api\Data\ProductCustomOptionInterface[] $options
+     * @return ProductDetailInterface
+     */
+    public function setOptions(array $options): ProductDetailInterface
+    {
+        $this->setData(self::OPTIONS_FIELD_KEY, $options);
+        return $this;
     }
 }
