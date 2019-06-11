@@ -60,7 +60,7 @@ try {
         $dirList->getPath(DirectoryList::VAR_DIR),
         $installConfigFile,
         $globalConfigFile,
-        BP . '/app/etc/',
+        BP . $settings->get('TESTS_GLOBAL_CONFIG_DIR'),
         $settings->get('TESTS_MAGENTO_MODE'),
         AutoloaderRegistry::getAutoloader()
     );
