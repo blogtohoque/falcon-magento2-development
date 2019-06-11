@@ -15,7 +15,7 @@ interface ConfigInterface extends ExtensibleDataInterface
 
     const VERSION_KEY = 'version';
 
-    const STORE_CODE_KEY = 'storeCode';
+    const STORE_CODE_KEY = 'store_code';
 
     /**
      * Get falcon extension version

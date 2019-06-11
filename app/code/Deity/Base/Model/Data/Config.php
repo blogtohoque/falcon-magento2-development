@@ -38,17 +38,17 @@ class Config implements ConfigInterface
     /**
      * Config constructor.
      * @param string $version
-     * @param string $storeCode
+     * @param string $store_code
      * @param ConfigExtensionInterfaceFactory $configExtensionInterfaceFactory
      */
     public function __construct(
         string $version,
-        string $storeCode,
+        string $store_code,
         ConfigExtensionInterfaceFactory $configExtensionInterfaceFactory
     ) {
         $this->extensionAttributesFactory = $configExtensionInterfaceFactory;
         $this->version = $version;
-        $this->storeCode = $storeCode;
+        $this->storeCode = $store_code;
     }
 
     /**
