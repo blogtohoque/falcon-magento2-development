@@ -15,8 +15,7 @@ use Magento\TestFramework\TestCase\WebapiAbstract;
 class ConfigApiTest extends WebapiAbstract
 {
     const CONFIG_API_ENDPOINT = '/V1/falcon/config';
-
-
+    
     public function testConfigFields()
     {
         $serviceInfo = [
