@@ -7,6 +7,7 @@ use Deity\FalconCacheApi\Model\FalconApiAdapterInterface;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\ClientFactory;
 use Magento\Framework\Serialize\SerializerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class FalconApiAdapter
@@ -31,14 +32,21 @@ class FalconApiAdapter implements FalconApiAdapterInterface
     private $error = '';
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * FalconApiAdapter constructor.
      * @param ClientFactory $clientFactory
      * @param SerializerInterface $json
+     * @param LoggerInterface $logger
      */
-    public function __construct(ClientFactory $clientFactory, SerializerInterface $json)
+    public function __construct(ClientFactory $clientFactory, SerializerInterface $json, LoggerInterface $logger)
     {
         $this->clientFactory = $clientFactory;
         $this->jsonEncode = $json;
+        $this->logger = $logger;
     }
 
     /**
@@ -49,16 +57,22 @@ class FalconApiAdapter implements FalconApiAdapterInterface
      */
     private function makeRequest(array $params): bool
     {
-        /** @var Curl $curlClient */
-        $curlClient = $this->clientFactory->create();
-        $curlClient->addHeader('Content-Type', 'application/json');
-        $curlClient->post('localhost', $this->jsonEncode->serialize($params));
-        $headers = $curlClient->getHeaders();
-        $responseHttpCode = $headers['CURLINFO_HTTP_CODE'] ?? 400;
-        if ($responseHttpCode === 200) {
-            return true;
+        try {
+            /** @var Curl $curlClient */
+            $curlClient = $this->clientFactory->create();
+            $curlClient->addHeader('Content-Type', 'application/json');
+            $curlClient->post('localhost', $this->jsonEncode->serialize($params));
+            $headers = $curlClient->getHeaders();
+            $responseHttpCode = $headers['CURLINFO_HTTP_CODE'] ?? 400;
+            if ($responseHttpCode === 200) {
+                return true;
+            }
+            $this->error = $curlClient->getBody();
+        } catch (\Exception $e) {
+            $this->logger->error('Falcon cache error: ' . $e->getMessage());
+            $this->error = $e->getMessage();
         }
-        $this->error = $curlClient->getBody();
+
         return false;
     }
 
