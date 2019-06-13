@@ -2,4 +2,5 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Deity\FalconCacheApi\Model\FalconApiAdapterInterface" type="Deity\FalconCache\Model\FalconApiAdapter" />
     <preference for="Deity\FalconCacheApi\Model\CacheManagementInterface" type="Deity\FalconCache\Model\CacheManagement" />
+    <preference for="Deity\FalconCacheApi\Model\ConfigProviderInterface" type="Deity\FalconCache\Model\ConfigProvider" />
 </config>

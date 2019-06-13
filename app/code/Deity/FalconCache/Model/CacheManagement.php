@@ -50,6 +50,6 @@ class CacheManagement implements CacheManagementInterface
      */
     private function getAvailableCacheTypes(): array
     {
-        return ['product', 'category'];
+        return ['Product', 'Category'];
     }
 }

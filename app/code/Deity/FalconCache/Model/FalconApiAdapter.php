@@ -80,11 +80,10 @@ class FalconApiAdapter implements FalconApiAdapterInterface
             $curlClient = $this->clientFactory->create();
             $curlClient->addHeader('Content-Type', 'application/json');
             $curlClient->post($falconApiUrl, $this->jsonEncode->serialize($params));
-            $headers = $curlClient->getHeaders();
-            $responseHttpCode = $headers['CURLINFO_HTTP_CODE'] ?? 400;
-            if ($responseHttpCode === 200) {
+            if ($curlClient->getStatus() === 200) {
                 return true;
             }
+            $this->logger->error($curlClient->getBody());
             $this->error = $curlClient->getBody();
         } catch (\Exception $e) {
             $this->logger->error('Falcon cache error: ' . $e->getMessage());
