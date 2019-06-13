@@ -2,6 +2,7 @@
 
 namespace Deity\FalconCache\Test\Unit\Model;
 
+use Deity\FalconCache\Model\ConfigProvider;
 use Deity\FalconCache\Model\FalconApiAdapter;
 use Generator;
 use Magento\Framework\HTTP\Client\Curl;
@@ -33,6 +34,11 @@ class FalconApiAdapterTest extends TestCase
      */
     private $curl;
 
+    /**
+     * @var ConfigProvider | \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $configProvider;
+
 
     public function setUp()
     {
@@ -45,12 +51,15 @@ class FalconApiAdapterTest extends TestCase
         $this->jsonSerializer = $this->getMockBuilder(Json::class)
             ->getMock();
 
+        $this->configProvider = $this->createPartialMock(ConfigProvider::class, ['getFalconApiCacheUrl']);
+
         $this->objectManager = new ObjectManager($this);
 
         $this->falconApiAdapter = $this->objectManager->getObject(
             FalconApiAdapter::class, [
                 'json' => $this->jsonSerializer,
-                'clientFactory' => $clientFactory
+                'clientFactory' => $clientFactory,
+                'configProvider' => $this->configProvider
             ]
         );
     }
@@ -92,6 +101,21 @@ class FalconApiAdapterTest extends TestCase
 
         $this->assertEquals(false, $response, 'Return value should be false');
         $this->assertEquals($errorMessage, $this->falconApiAdapter->getError(), 'Error message should match');
+    }
+
+    /**
+     * @covers \Deity\FalconCache\Model\FalconApiAdapter::flushCacheForGivenType
+     */
+    public function testErrorMessageWhenApiUrlIsNotSet()
+    {
+        $this->configProvider
+            ->expects($this->any())
+            ->method('getFalconApiCacheUrl')
+            ->will($this->returnValue(''));
+
+        $response = $this->falconApiAdapter->flushCacheForGivenType('product');
+
+        $this->assertEquals(false, $response, 'Api should return false');
     }
 
     /**

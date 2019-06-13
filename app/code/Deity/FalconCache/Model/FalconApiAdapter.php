@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Deity\FalconCache\Model;
 
+use Deity\FalconCacheApi\Model\ConfigProviderInterface;
 use Deity\FalconCacheApi\Model\FalconApiAdapterInterface;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\ClientFactory;
@@ -37,13 +38,24 @@ class FalconApiAdapter implements FalconApiAdapterInterface
     private $logger;
 
     /**
+     * @var ConfigProviderInterface
+     */
+    private $configProvider;
+
+    /**
      * FalconApiAdapter constructor.
      * @param ClientFactory $clientFactory
      * @param SerializerInterface $json
      * @param LoggerInterface $logger
+     * @param ConfigProviderInterface $configProvider
      */
-    public function __construct(ClientFactory $clientFactory, SerializerInterface $json, LoggerInterface $logger)
-    {
+    public function __construct(
+        ClientFactory $clientFactory,
+        SerializerInterface $json,
+        LoggerInterface $logger,
+        ConfigProviderInterface $configProvider
+    ) {
+        $this->configProvider = $configProvider;
         $this->clientFactory = $clientFactory;
         $this->jsonEncode = $json;
         $this->logger = $logger;
@@ -58,10 +70,16 @@ class FalconApiAdapter implements FalconApiAdapterInterface
     private function makeRequest(array $params): bool
     {
         try {
+
+            $falconApiUrl = $this->configProvider->getFalconApiCacheUrl();
+            if ($falconApiUrl === '') {
+                $this->error = 'Falcon Cache API Url is not set.';
+                return false;
+            }
             /** @var Curl $curlClient */
             $curlClient = $this->clientFactory->create();
             $curlClient->addHeader('Content-Type', 'application/json');
-            $curlClient->post('localhost', $this->jsonEncode->serialize($params));
+            $curlClient->post($falconApiUrl, $this->jsonEncode->serialize($params));
             $headers = $curlClient->getHeaders();
             $responseHttpCode = $headers['CURLINFO_HTTP_CODE'] ?? 400;
             if ($responseHttpCode === 200) {
