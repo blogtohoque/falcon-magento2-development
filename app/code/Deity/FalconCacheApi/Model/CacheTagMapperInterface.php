@@ -28,4 +28,12 @@ interface CacheTagMapperInterface
      * @return array
      */
     public function mapMagentoCacheTagsToFalconApiCache(array $tags): array;
+
+    /**
+     * Filter out magento tags
+     *
+     * @param array $tags
+     * @return array
+     */
+    public function filterMagentoCacheTags(array $tags): array;
 }

@@ -3,4 +3,5 @@
     <preference for="Deity\FalconCacheApi\Model\FalconApiAdapterInterface" type="Deity\FalconCache\Model\FalconApiAdapter" />
     <preference for="Deity\FalconCacheApi\Model\CacheManagementInterface" type="Deity\FalconCache\Model\CacheManagement" />
     <preference for="Deity\FalconCacheApi\Model\ConfigProviderInterface" type="Deity\FalconCache\Model\ConfigProvider" />
+    <preference for="Deity\FalconCacheApi\Model\CacheTagMapperInterface" type="Deity\FalconCache\Model\CacheTagMapper" />
 </config>

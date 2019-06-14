@@ -91,7 +91,24 @@ class CacheTagMapperTest extends TestCase
     }
 
     /**
+     * @covers \Deity\FalconCache\Model\CacheTagMapper::filterMagentoCacheTags
+     * @param array $magentoTags
+     * @param array $expected
+     * @dataProvider getExcessiveMagentoTags
+     */
+    public function testFilterMagentoCacheTags(array $magentoTags, array $expected)
+    {
+        $filteredTags = $this->cacheTagMapper->filterMagentoCacheTags($magentoTags);
+        $this->assertEmpty(
+            array_diff($filteredTags, $expected),
+            'Filtered cache tags should match'
+        );
+    }
+
+    /**
      * Data provider
+     *
+     * @return \Generator
      */
     public function getMagentoCacheTagsSamples()
     {
@@ -100,5 +117,18 @@ class CacheTagMapperTest extends TestCase
         yield 'category-product-tag' => [['cat_c_p_20'], [['Category' => 20]]];
         yield 'all-products-tag' => [['cat_p'], [['Product']]];
         yield 'all-categories-tag' => [['cat_c'], [['Category']]];
+    }
+
+    /**
+     * Data provider
+     *
+     * @return \Generator
+     */
+    public function getExcessiveMagentoTags()
+    {
+        yield 'products-tag' => [['cat_p_2', 'cat_p'], ['cat_p']];
+        yield 'category-product-tag' => [['cat_c_20', 'cat_p_2'], ['cat_c_20', 'cat_p_2']];
+        yield 'categories-tag' => [['cat_c_p_20', 'cat_c'], ['cat_c']];
+        yield 'mixed' => [['cat_p_2', 'cat_p', 'cat_c_p_20', 'cat_c'], ['cat_c', 'cat_p']];
     }
 }

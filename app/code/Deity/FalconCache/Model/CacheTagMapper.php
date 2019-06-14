@@ -76,6 +76,29 @@ class CacheTagMapper implements CacheTagMapperInterface
     }
 
     /**
+     * Filter out magento tags
+     *
+     * @param array $tags
+     * @return array
+     */
+    public function filterMagentoCacheTags(array $tags): array
+    {
+        foreach ([Product::CACHE_TAG, Category::CACHE_TAG] as $entityTag) {
+            $indexFound = array_search($entityTag, $tags);
+            if ($indexFound !== false) {
+                $tags = array_filter($tags, function($tag) use ($entityTag) {
+                    if (strpos($tag, $entityTag) === 0) {
+                        return false;
+                    }
+                    return true;
+                });
+                array_push($tags, $entityTag);
+            }
+        }
+        return $tags;
+    }
+
+    /**
      * Get entity id from cache tag
      *
      * @param string $tag
