@@ -4,7 +4,9 @@ namespace Deity\FalconCache\Test\Unit\Model;
 
 use Deity\FalconCache\Model\ConfigProvider;
 use Deity\FalconCache\Model\FalconApiAdapter;
+use Deity\FalconCacheApi\Model\ConfigProviderInterface;
 use Generator;
+use Magento\Framework\App\ScopeInterface;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\ClientFactory;
 use Magento\Framework\Serialize\Serializer\Json;
@@ -72,13 +74,15 @@ class FalconApiAdapterTest extends TestCase
      */
     public function testFlushCacheForGivenType($entityType, $expected)
     {
-        $headerInfo = [
-          'CURLINFO_HTTP_CODE' => 200
-        ];
         $this->curl
             ->expects($this->any())
-            ->method('getHeaders')
-            ->will($this->returnValue($headerInfo));
+            ->method('getStatus')
+            ->will($this->returnValue(200));
+
+        $this->configProvider
+            ->expects($this->any())
+            ->method('getFalconApiCacheUrl')
+            ->will($this->returnValue('some-url'));
 
         $response = $this->falconApiAdapter->flushCacheForGivenType($entityType);
 
@@ -91,6 +95,11 @@ class FalconApiAdapterTest extends TestCase
      */
     public function testFlushCacheWithErrorMessage()
     {
+        $this->configProvider
+            ->expects($this->any())
+            ->method('getFalconApiCacheUrl')
+            ->will($this->returnValue('some-url'));
+
         $errorMessage = 'Error occurred message';
         $this->curl
             ->expects($this->any())
