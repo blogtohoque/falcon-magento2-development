@@ -4,9 +4,7 @@ namespace Deity\FalconCache\Test\Unit\Model;
 
 use Deity\FalconCache\Model\ConfigProvider;
 use Deity\FalconCache\Model\FalconApiAdapter;
-use Deity\FalconCacheApi\Model\ConfigProviderInterface;
 use Generator;
-use Magento\Framework\App\ScopeInterface;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\ClientFactory;
 use Magento\Framework\Serialize\Serializer\Json;
@@ -128,14 +126,54 @@ class FalconApiAdapterTest extends TestCase
     }
 
     /**
+     * @param array $entities
+     * @param bool $expected
+     * @dataProvider getEntitiesData
+     * @covers \Deity\FalconCache\Model\FalconApiAdapter::flushCacheForGivenType
+     */
+    public function testFlushCacheForEntities($entities, $expected)
+    {
+        $this->configProvider
+            ->expects($this->any())
+            ->method('getFalconApiCacheUrl')
+            ->will($this->returnValue('some-url'));
+
+        $errorMessage = 'Error occurred message';
+        $this->curl
+            ->expects($this->any())
+            ->method('getStatus')
+            ->will($this->returnValue(200));
+
+        $response = $this->falconApiAdapter->flushCacheForEntities($entities);
+
+        $this->assertEquals($expected, $response, 'Return value should match');
+    }
+
+    /**
+     * @return Generator
+     */
+    public function getEntitiesData()
+    {
+        $productData = ['Product' => 1];
+        $allProducts = ['Product'];
+        $allCategories = ['Category'];
+        $categoryData = ['Category' => 23];
+        yield 'product-data' => [[$productData],true];
+        yield 'category-data' => [[$productData],true];
+        yield 'product-and-category-data' => [[$productData, $categoryData],true];
+        yield 'mixed-all-product-data' => [[$allProducts, $categoryData],true];
+        yield 'mixed-all-category-data' => [[$productData, $allCategories],true];
+    }
+
+    /**
      * Test data
      *
      * @return Generator
      */
     public function getEntityTypeData()
     {
-        yield 'product' => ['product', true];
-        yield 'category' => ['category', true];
+        yield 'product' => ['Product', true];
+        yield 'category' => ['Category', true];
         yield 'any-other' => ['proverbs', true];
     }
 }

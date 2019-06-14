@@ -20,6 +20,14 @@ interface FalconApiAdapterInterface
     public function flushCacheForGivenType(string $entityTypeCode): bool;
 
     /**
+     * Flush cache for given entities data
+     *
+     * @param array $entities
+     * @return bool
+     */
+    public function flushCacheForEntities(array $entities): bool;
+
+    /**
      * Get error message
      *
      * @return string
