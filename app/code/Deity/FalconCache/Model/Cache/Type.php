@@ -66,12 +66,70 @@ class Type extends TagScope
     }
 
     /**
-     * Limit the cleaning scope within a tag
+     * Save cache record
      *
-     * {@inheritdoc}
+     * @param string $data
+     * @param string $identifier
+     * @param array $tags
+     * @param int|bool|null $lifeTime
+     * @return bool
+     */
+    public function save($data, $identifier, array $tags = [], $lifeTime = null)
+    {
+        //Magento do not write to Falcon Cache
+        return true;
+    }
+
+    /**
+     * Load cache record by its unique identifier
+     *
+     * @param string $identifier
+     * @return string|bool
+     * @api
+     */
+    public function load($identifier)
+    {
+        //Falcon cached is only used on Falcon side, not magento, return false as if it is not enabled
+        return false;
+    }
+
+    /**
+     * Test if a cache is available for the given id
+     *
+     * @param string $identifier Cache id
+     * @return int|bool Last modified time of cache entry if it is available, false otherwise
+     */
+    public function test($identifier)
+    {
+        //Falcon Cache is not managed by Magento, return false as if it is not enabled
+        return false;
+    }
+
+    /**
+     * Remove cache record by its unique identifier
+     *
+     * @param string $identifier
+     * @return bool
+     */
+    public function remove($identifier)
+    {
+        //something to look into
+        return true;
+    }
+
+    /**
+     * Clean cache records matching specified tags
+     *
+     * @param string $mode
+     * @param array $tags
+     * @return bool
      */
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = [])
     {
+        if ($mode === \Zend_Cache::CLEANING_MODE_MATCHING_TAG) {
+
+        }
+
         return $this->cacheManagement->cleanFalconCache();
     }
 }

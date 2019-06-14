@@ -3,7 +3,6 @@
 namespace Deity\FalconCache\Model\Cache;
 
 use Deity\FalconCache\Model\CacheManagement;
-use Deity\FalconCache\Model\FalconApiAdapter;
 use Magento\Framework\App\Cache\Type\FrontendPool;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use PHPUnit\Framework\TestCase;
@@ -51,6 +50,42 @@ class TypeTest extends TestCase
     {
         $tag = $this->cacheType->getTag();
         $this->assertEquals(Type::CACHE_TAG, $tag, 'Cache tag should match');
+    }
+
+    /**
+     * @covers \Deity\FalconCache\Model\Cache\Type::save
+     */
+    public function testSave()
+    {
+        $result = $this->cacheType->save('any-data-key', 'any-identifier');
+        $this->assertEquals(true, $result, 'save function is not used should always return true');
+    }
+
+    /**
+     * @covers \Deity\FalconCache\Model\Cache\Type::load
+     */
+    public function testLoad()
+    {
+        $result = $this->cacheType->load('any-identifier');
+        $this->assertEquals(false, $result, 'load function is not used should always return false');
+    }
+
+    /**
+     * @covers \Deity\FalconCache\Model\Cache\Type::test
+     */
+    public function testTest()
+    {
+        $result = $this->cacheType->test('any-identifier');
+        $this->assertEquals(false, $result, 'test function is not used should always return false');
+    }
+
+    /**
+     * @covers \Deity\FalconCache\Model\Cache\Type::remove
+     */
+    public function testRemove()
+    {
+        $result = $this->cacheType->remove('any-identifier');
+        $this->assertEquals(true, $result, 'remove function is not used should always return true');
     }
 
     /**
