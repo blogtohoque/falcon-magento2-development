@@ -44,6 +44,17 @@ class CacheManagement implements CacheManagementInterface
     }
 
     /**
+     * Clean Falcon Cache for given tags
+     *
+     * @param array $tags
+     * @return bool
+     */
+    public function cleanFalconCacheForTags(array $tags): bool
+    {
+
+    }
+
+    /**
      *  Get available cache types
      *
      * @return string[]

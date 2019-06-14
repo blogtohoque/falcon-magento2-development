@@ -52,4 +52,16 @@ class CacheManagementTest extends TestCase
 
         $this->assertEquals(true, $result, 'Clean cache call should match');
     }
+
+    public function testCleanFalconCacheForTags($tags, $expected)
+    {
+        $this->apiAdapter
+            ->expects($this->any())
+            ->method('flushCacheForGivenType')
+            ->will($this->returnValue(true));
+
+        $result = $this->cacheManager->cleanFalconCacheForTags($tags);
+
+        $this->assertEquals(true, $result, 'Clean cache call should match');
+    }
 }

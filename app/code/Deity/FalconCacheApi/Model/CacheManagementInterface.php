@@ -16,4 +16,12 @@ interface CacheManagementInterface
      * @return bool
      */
     public function cleanFalconCache(): bool;
+
+    /**
+     * Clean Falcon Cache for given tags
+     *
+     * @param array $tags
+     * @return bool
+     */
+    public function cleanFalconCacheForTags(array $tags): bool;
 }
