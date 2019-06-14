@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Deity\FalconCache\Model;
 
 use Deity\FalconCacheApi\Model\CacheManagementInterface;
+use Deity\FalconCacheApi\Model\CacheTagMapperInterface;
 use Deity\FalconCacheApi\Model\FalconApiAdapterInterface;
 
 /**
@@ -20,11 +21,20 @@ class CacheManagement implements CacheManagementInterface
     private $apiAdapter;
 
     /**
+     * @var CacheTagMapperInterface
+     */
+    private $cacheTagMapper;
+
+    /**
      * CacheManagement constructor.
      * @param FalconApiAdapterInterface $apiAdapter
+     * @param CacheTagMapperInterface $cacheTagMapper
      */
-    public function __construct(FalconApiAdapterInterface $apiAdapter)
-    {
+    public function __construct(
+        FalconApiAdapterInterface $apiAdapter,
+        CacheTagMapperInterface $cacheTagMapper
+    ) {
+        $this->cacheTagMapper = $cacheTagMapper;
         $this->apiAdapter = $apiAdapter;
     }
 
@@ -51,7 +61,11 @@ class CacheManagement implements CacheManagementInterface
      */
     public function cleanFalconCacheForTags(array $tags): bool
     {
+        $falconTags = $this->cacheTagMapper->mapMagentoCacheTagsToFalconApiCache(
+            $this->cacheTagMapper->filterMagentoCacheTags($tags)
+        );
 
+        return $this->apiAdapter->flushCacheForEntities($falconTags);
     }
 
     /**

@@ -32,7 +32,10 @@ class TypeTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->cacheManagement = $this->createPartialMock(CacheManagement::class, ['cleanFalconCache']);
+        $this->cacheManagement = $this->createPartialMock(
+            CacheManagement::class,
+            ['cleanFalconCache', 'cleanFalconCacheForTags']
+        );
 
         $this->cacheType = $this->objectManager->getObject(
             Type::class,
@@ -91,14 +94,37 @@ class TypeTest extends TestCase
     /**
      * @covers \Deity\FalconCache\Model\Cache\Type::clean
      */
-    public function testClean()
+    public function testCleanCleanModeAll()
     {
         $this->cacheManagement
-            ->expects($this->any())
+            ->expects($this->once())
             ->method('cleanFalconCache')
             ->will($this->returnValue(true));
 
+        $this->cacheManagement
+            ->expects($this->never())
+            ->method('cleanFalconCacheForTags');
+
         $cleanResult = $this->cacheType->clean();
+
+        $this->assertEquals(true, $cleanResult, 'clean result should be true');
+    }
+
+    /**
+     * @covers \Deity\FalconCache\Model\Cache\Type::clean
+     */
+    public function testCleanCleanModeByTag()
+    {
+        $this->cacheManagement
+            ->expects($this->never())
+            ->method('cleanFalconCache');
+
+        $this->cacheManagement
+            ->expects($this->once())
+            ->method('cleanFalconCacheForTags')
+            ->will($this->returnValue(true));
+
+        $cleanResult = $this->cacheType->clean(\Zend_Cache::CLEANING_MODE_MATCHING_TAG);
 
         $this->assertEquals(true, $cleanResult, 'clean result should be true');
     }

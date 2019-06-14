@@ -127,7 +127,7 @@ class Type extends TagScope
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = [])
     {
         if ($mode === \Zend_Cache::CLEANING_MODE_MATCHING_TAG) {
-
+            return $this->cacheManagement->cleanFalconCacheForTags($tags);
         }
 
         return $this->cacheManagement->cleanFalconCache();
