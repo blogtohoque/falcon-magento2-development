@@ -210,3 +210,4 @@ Magento/Customer/Model/Customer/DataProvider.php
 Magento/InventoryShippingAdminUi/Ui/DataProvider
 Magento/Elasticsearch6/Model/Client\
 app/code/Magento
+app/etc
