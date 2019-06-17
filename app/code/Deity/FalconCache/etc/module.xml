@@ -3,6 +3,7 @@
     <module name="Deity_FalconCache" setup_version="1.0.0">
         <sequence>
             <module name="Deity_FalconCacheApi"/>
+            <module name="Magento_Eav" />
         </sequence>
     </module>
 </config>
