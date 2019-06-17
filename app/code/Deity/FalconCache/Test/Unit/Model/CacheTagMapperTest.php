@@ -112,11 +112,11 @@ class CacheTagMapperTest extends TestCase
      */
     public function getMagentoCacheTagsSamples()
     {
-        yield 'product-tag' => [['cat_p_2'], [['Product' => 2]]];
-        yield 'category-tag' => [['cat_c_20'], [['Category' => 20]]];
-        yield 'category-product-tag' => [['cat_c_p_20'], [['Category' => 20]]];
-        yield 'all-products-tag' => [['cat_p'], [['Product']]];
-        yield 'all-categories-tag' => [['cat_c'], [['Category']]];
+        yield 'product-tag' => [['cat_p_2'], [['type' => 'Product', 'id' => 2]]];
+        yield 'category-tag' => [['cat_c_20'], [['type' =>'Category', 'id' => 20]]];
+        yield 'category-product-tag' => [['cat_c_p_20'], [['type' => 'Category', 'id' => 20]]];
+        yield 'all-products-tag' => [['cat_p'], [['type' => 'Product']]];
+        yield 'all-categories-tag' => [['cat_c'], [['type' => 'Category']]];
     }
 
     /**

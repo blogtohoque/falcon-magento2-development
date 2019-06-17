@@ -45,11 +45,11 @@ class CacheTagMapper implements CacheTagMapperInterface
             }
 
             if ($entityId !== 0) {
-                $falconTags[] = [$entityType => $entityId];
+                $falconTags[] = ['type' => $entityType, 'id' => $entityId];
                 continue;
             }
 
-            $falconTags[] = [$entityType];
+            $falconTags[] = ['type' => $entityType];
         }
 
         return $falconTags;

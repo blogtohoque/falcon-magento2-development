@@ -4,4 +4,8 @@
     <preference for="Deity\FalconCacheApi\Model\CacheManagementInterface" type="Deity\FalconCache\Model\CacheManagement" />
     <preference for="Deity\FalconCacheApi\Model\ConfigProviderInterface" type="Deity\FalconCache\Model\ConfigProvider" />
     <preference for="Deity\FalconCacheApi\Model\CacheTagMapperInterface" type="Deity\FalconCache\Model\CacheTagMapper" />
+
+    <type name="Magento\Eav\Model\Entity\AbstractEntity">
+        <plugin name="clean_falcon_cache" type="Deity\FalconCache\Plugin\FlushCacheByTags" sortOrder="20" />
+    </type>
 </config>

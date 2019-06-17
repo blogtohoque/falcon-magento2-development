@@ -108,20 +108,13 @@ class FalconApiAdapter implements FalconApiAdapterInterface
     /**
      * Flush cache for given entities data
      *
-     * @param array $entities
+     * @param array $bodyRequest
      * @return bool
      */
-    public function flushCacheForEntities(array $entities): bool
+    public function flushCacheForEntities(array $bodyRequest): bool
     {
-        $bodyRequest = [];
-        foreach ($entities as $entityCode => $entityId)
-        {
-            if (is_int($entityCode)) {
-                $bodyRequest[] = ['type' => $entityId];
-                continue;
-            }
-
-            $bodyRequest[] = ['type' => $entityCode, 'id' => $entityId];
+        if (empty($bodyRequest)) {
+            return false;
         }
 
         return $this->makeRequest($bodyRequest);
