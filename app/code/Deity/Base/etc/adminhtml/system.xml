@@ -5,11 +5,11 @@
             <label>Falcon</label>
             <tab>service</tab>
             <resource>Deity_Falcon::config</resource>
-            <group id="cache" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
-                <label>Cache configuration</label>
+            <group id="frontend" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Url configuration</label>
                 <field id="url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Url to flush cache on Falcon Server</label>
-                    <comment>Url format should be: https://falcon.com/cache-key</comment>
+                    <label>Falcon frontend url</label>
+                    <comment>Url format should be: https://falcon.com</comment>
                 </field>
             </group>
         </section>

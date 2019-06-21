@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Deity\Cms\Model;
 
+use Deity\Cms\Model\Template\Filter;
 use Deity\CmsApi\Api\GetStaticBlockContentInterface;
 use Deity\CmsApi\Model\GetBlockByIdentifierInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Widget\Model\Template\FilterEmulate;
 
 /**
  * Class GetStaticBlockContent
@@ -28,7 +28,7 @@ class GetStaticBlockContent implements GetStaticBlockContentInterface
     private $storeManager;
 
     /**
-     * @var FilterEmulate
+     * @var Filter
      */
     private $contentFilter;
 
@@ -36,12 +36,12 @@ class GetStaticBlockContent implements GetStaticBlockContentInterface
      * GetStaticBlockContent constructor.
      * @param GetBlockByIdentifierInterface $getBlockByIdentifier
      * @param StoreManagerInterface $storeManager
-     * @param FilterEmulate $filterEmulate
+     * @param Filter $filterEmulate
      */
     public function __construct(
         GetBlockByIdentifierInterface $getBlockByIdentifier,
         StoreManagerInterface $storeManager,
-        FilterEmulate $filterEmulate
+        Filter $filterEmulate
     ) {
         $this->contentFilter = $filterEmulate;
         $this->getBlockByIdentifier = $getBlockByIdentifier;
