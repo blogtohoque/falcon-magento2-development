@@ -4,7 +4,7 @@
         <section id="falcon" translate="label" type="text" sortOrder="105" showInDefault="1" showInWebsite="0" showInStore="0">
             <label>Falcon</label>
             <tab>service</tab>
-            <resource>Deity_Falcon::config</resource>
+            <resource>Deity_FalconCache::config</resource>
             <group id="cache" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Cache configuration</label>
                 <field id="url" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
