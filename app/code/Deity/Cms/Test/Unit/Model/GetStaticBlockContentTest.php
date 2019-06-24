@@ -2,10 +2,10 @@
 
 namespace Deity\Cms\Model;
 
+use Deity\Cms\Model\Template\Filter;
 use Magento\Cms\Model\Block;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManager;
-use Magento\Widget\Model\Template\FilterEmulate;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
@@ -59,7 +59,7 @@ class GetStaticBlockContentTest extends TestCase
             ->method('getStore')
             ->will($this->returnValue($storeObject));
 
-        $filterEmulate = $this->createMock(FilterEmulate::class);
+        $filterEmulate = $this->createMock(Filter::class);
         $filterEmulate->expects($this->any())
             ->method('filter')
             ->will($this->returnArgument(0));

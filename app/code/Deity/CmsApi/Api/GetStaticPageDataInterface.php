@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Deity\CmsApi\Api;
 
-use Deity\CmsApi\Api\Data\PageDataInterface;
+use Deity\CmsApi\Api\Data\PageInterface;
 
 /**
  * Interface GetStaticPageDataInterface
@@ -17,7 +17,7 @@ interface GetStaticPageDataInterface
      * Get static page content object
      *
      * @param int $pageId
-     * @return \Deity\CmsApi\Api\Data\PageDataInterface
+     * @return \Deity\CmsApi\Api\Data\PageInterface
      */
-    public function execute(int $pageId): PageDataInterface;
+    public function execute(int $pageId): PageInterface;
 }
