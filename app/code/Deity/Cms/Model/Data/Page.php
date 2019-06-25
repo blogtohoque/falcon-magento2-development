@@ -36,7 +36,7 @@ class Page implements PageInterface
     private $metaKeywords;
 
     /**
-     * @var OrderResponseExtensionInterface
+     * @var PageExtensionInterface
      */
     private $extensionAttributes;
 

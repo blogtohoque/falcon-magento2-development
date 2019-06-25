@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace Deity\Cms\Model;
 
 use Deity\Cms\Model\Template\Filter;
-use Deity\CmsApi\Api\GetStaticBlockContentInterface;
+use Deity\CmsApi\Api\Data\BlockInterface;
+use Deity\CmsApi\Api\Data\BlockInterfaceFactory;
+use Deity\CmsApi\Api\GetStaticBlockDataInterface;
 use Deity\CmsApi\Model\GetBlockByIdentifierInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
@@ -14,7 +16,7 @@ use Magento\Store\Model\StoreManagerInterface;
  *
  * @package Deity\Cms\Model
  */
-class GetStaticBlockContent implements GetStaticBlockContentInterface
+class GetStaticBlockData implements GetStaticBlockDataInterface
 {
 
     /**
@@ -28,6 +30,11 @@ class GetStaticBlockContent implements GetStaticBlockContentInterface
     private $storeManager;
 
     /**
+     * @var BlockInterfaceFactory
+     */
+    private $blockFactory;
+
+    /**
      * @var Filter
      */
     private $contentFilter;
@@ -37,12 +44,15 @@ class GetStaticBlockContent implements GetStaticBlockContentInterface
      * @param GetBlockByIdentifierInterface $getBlockByIdentifier
      * @param StoreManagerInterface $storeManager
      * @param Filter $filterEmulate
+     * @param BlockInterfaceFactory $blockFactory
      */
     public function __construct(
         GetBlockByIdentifierInterface $getBlockByIdentifier,
         StoreManagerInterface $storeManager,
-        Filter $filterEmulate
+        Filter $filterEmulate,
+        BlockInterfaceFactory $blockFactory
     ) {
+        $this->blockFactory = $blockFactory;
         $this->contentFilter = $filterEmulate;
         $this->getBlockByIdentifier = $getBlockByIdentifier;
         $this->storeManager = $storeManager;
@@ -52,13 +62,18 @@ class GetStaticBlockContent implements GetStaticBlockContentInterface
      * Get content of the static block
      *
      * @param string $identifier
-     * @return string
+     * @return BlockInterface
      * @throws NoSuchEntityException
      */
-    public function execute(string $identifier): string
+    public function execute(string $identifier): BlockInterface
     {
         $storeId = (int)$this->storeManager->getStore()->getId();
         $blockInstance = $this->getBlockByIdentifier->execute($identifier, $storeId);
-        return (string)$this->contentFilter->filter($blockInstance->getContent());
+        $blockContent =(string)$this->contentFilter->filter($blockInstance->getContent());
+        return $this->blockFactory->create(
+            [
+                'content' => $blockContent
+            ]
+        );
     }
 }

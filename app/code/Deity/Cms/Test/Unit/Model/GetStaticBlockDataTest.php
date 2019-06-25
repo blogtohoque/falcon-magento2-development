@@ -2,19 +2,22 @@
 
 namespace Deity\Cms\Model;
 
+use Deity\Cms\Model\Data\Block;
 use Deity\Cms\Model\Template\Filter;
-use Magento\Cms\Model\Block;
+use Deity\CmsApi\Api\Data\BlockInterface;
+use Deity\CmsApi\Api\Data\BlockInterfaceFactory;
+use Magento\Cms\Model\Block as BlockAlias;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
-class GetStaticBlockContentTest extends TestCase
+class GetStaticBlockDataTest extends TestCase
 {
 
     /**
-     * @var GetStaticBlockContent
+     * @var GetStaticBlockData
      */
     private $getStaticBlockContent;
 
@@ -22,6 +25,11 @@ class GetStaticBlockContentTest extends TestCase
      * @var GetBlockByIdentifier | MockObject
      */
     private $getBlockByIdentifier;
+
+    /**
+     * @var BlockInterfaceFactory | MockObject
+     */
+    private $blockFactory;
 
     /**
      * @var ObjectManager
@@ -55,6 +63,11 @@ class GetStaticBlockContentTest extends TestCase
             ['getStore']
         );
 
+        $this->blockFactory = $this->createPartialMock(
+            BlockInterfaceFactory::class,
+            ['create']
+        );
+
         $this->storeManager->expects($this->any())
             ->method('getStore')
             ->will($this->returnValue($storeObject));
@@ -65,11 +78,12 @@ class GetStaticBlockContentTest extends TestCase
             ->will($this->returnArgument(0));
 
         $this->getStaticBlockContent = $this->objectManager->getObject(
-            GetStaticBlockContent::class,
+            GetStaticBlockData::class,
             [
                 'storeManager' => $this->storeManager,
                 'getBlockByIdentifier' => $this->getBlockByIdentifier,
-                'filterEmulate' => $filterEmulate
+                'filterEmulate' => $filterEmulate,
+                'blockFactory' => $this->blockFactory
             ]
         );
     }
@@ -79,7 +93,7 @@ class GetStaticBlockContentTest extends TestCase
         $testIdentifier = 'any-block';
         $testBlockContent = 'any-content';
 
-        $block = $this->createMock(Block::class);
+        $block = $this->createMock(BlockAlias::class);
 
         $block->expects($this->any())
             ->method('getContent')
@@ -89,10 +103,21 @@ class GetStaticBlockContentTest extends TestCase
             ->method('execute')
             ->will($this->returnValue($block));
 
-        $blockContent = $this->getStaticBlockContent->execute($testIdentifier);
+        $blockObject = $this->createMock(Block::class);
+        $blockObject->expects($this->any())
+            ->method('getContent')
+            ->will($this->returnValue($testBlockContent));
+
+        $this->blockFactory
+            ->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($blockObject));
+
+        /** @var \Deity\Cms\Model\Data\Block $blockObject */
+        $blockObject = $this->getStaticBlockContent->execute($testIdentifier);
         $this->assertEquals(
             $testBlockContent,
-            $blockContent,
+            $blockObject->getContent(),
             'Service should return block content'
         );
     }

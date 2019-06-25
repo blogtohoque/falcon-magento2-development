@@ -3,18 +3,20 @@ declare(strict_types=1);
 
 namespace Deity\CmsApi\Api;
 
+use Deity\CmsApi\Api\Data\BlockInterface;
+
 /**
  * Interface GetStaticBlockContentInterface
  *
  * @package Deity\CmsApi\Api
  */
-interface GetStaticBlockContentInterface
+interface GetStaticBlockDataInterface
 {
     /**
      * Get content of the static block
      *
      * @param string $identifier
-     * @return string
+     * @return BlockInterface
      */
-    public function execute(string $identifier): string;
+    public function execute(string $identifier): BlockInterface;
 }
