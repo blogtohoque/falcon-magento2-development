@@ -97,4 +97,3 @@ class GetStaticBlockContentTest extends TestCase
         );
     }
 }
-

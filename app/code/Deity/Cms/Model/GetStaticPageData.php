@@ -48,7 +48,6 @@ class GetStaticPageData implements GetStaticPageDataInterface
         $this->filter = $filter;
     }
 
-
     /**
      * Get static page content object
      *

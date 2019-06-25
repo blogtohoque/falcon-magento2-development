@@ -38,6 +38,7 @@ class Filter extends MagentoFilter
      *
      * @param string[] $construction
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function viewDirective($construction)
     {
@@ -49,6 +50,7 @@ class Filter extends MagentoFilter
      *
      * @param string[] $construction
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function layoutDirective($construction)
     {
@@ -60,6 +62,7 @@ class Filter extends MagentoFilter
      *
      * @param string[] $construction
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function blockDirective($construction)
     {
@@ -71,6 +74,7 @@ class Filter extends MagentoFilter
      *
      * @param string[] $construction
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function cssDirective($construction)
     {
@@ -82,6 +86,7 @@ class Filter extends MagentoFilter
      *
      * @param string[] $constructions
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function widgetDirective($constructions)
     {
@@ -90,8 +95,10 @@ class Filter extends MagentoFilter
 
     /**
      * Omit template directives
+     *
      * @param string[] $constructions
      * @return mixed|string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function templateDirective($constructions)
     {

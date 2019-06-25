@@ -18,6 +18,12 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
+/**
+ * Class FilterTest
+ * @package Deity\Cms\Model\Template
+ * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class FilterTest extends TestCase
 {
 
@@ -227,6 +233,9 @@ class FilterTest extends TestCase
         );
     }
 
+    /**
+     * phpcs:disable
+     */
     public function testBlockDirective()
     {
         $sampleConstruction = [

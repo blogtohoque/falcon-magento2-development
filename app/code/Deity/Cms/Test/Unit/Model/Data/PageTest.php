@@ -89,4 +89,3 @@ class PageTest extends TestCase
         );
     }
 }
-

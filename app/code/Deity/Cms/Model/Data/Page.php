@@ -67,7 +67,6 @@ class Page implements PageInterface
         $this->metaKeywords = $metaKeywords;
     }
 
-
     /**
      * Get content
      *
@@ -115,7 +114,7 @@ class Page implements PageInterface
      */
     public function getExtensionAttributes()
     {
-        if (is_null($this->extensionAttributes)) {
+        if ($this->extensionAttributes === null) {
             $this->extensionAttributes = $this->extensionAttributesFactory->create(PageInterface::class);
         }
         return $this->extensionAttributes;

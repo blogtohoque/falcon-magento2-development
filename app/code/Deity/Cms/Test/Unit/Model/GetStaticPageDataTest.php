@@ -110,7 +110,7 @@ class GetStaticPageDataTest extends TestCase
         $this->pageRepository
             ->expects($this->any())
             ->method('getById')
-            ->will($this->returnValue($this->createPartialMock(\Magento\Cms\Model\Page::class,['getContent'])));
+            ->will($this->returnValue($this->createPartialMock(\Magento\Cms\Model\Page::class, ['getContent'])));
 
         $pageData = $this->getStaticPageData->execute($testPageId);
 
@@ -139,4 +139,3 @@ class GetStaticPageDataTest extends TestCase
         );
     }
 }
-

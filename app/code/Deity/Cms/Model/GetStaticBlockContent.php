@@ -48,7 +48,6 @@ class GetStaticBlockContent implements GetStaticBlockContentInterface
         $this->storeManager = $storeManager;
     }
 
-
     /**
      * Get content of the static block
      *

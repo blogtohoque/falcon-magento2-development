@@ -40,7 +40,6 @@ class GetBlockByIdentifier implements GetBlockByIdentifierInterface
         $this->blockResource = $blockResource;
     }
 
-
     /**
      * Get block by identifier for given storeId
      *
