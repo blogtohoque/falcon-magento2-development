@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /** @var $page \Magento\Cms\Model\Page */
 $page = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(\Magento\Cms\Model\Page::class);

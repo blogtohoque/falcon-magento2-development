@@ -12,6 +12,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
  */
 interface BlockInterface extends ExtensibleDataInterface
 {
+    const CONTENT = 'content';
+
     /**
      * Get block content field
      *
