@@ -5,7 +5,6 @@ namespace Deity\Cms\Model\Data;
 
 use Deity\CmsApi\Api\Data\BlockExtensionInterface;
 use Deity\CmsApi\Api\Data\BlockInterface;
-use Deity\CmsApi\Api\Data\PageInterface;
 use Magento\Framework\Api\ExtensionAttributesFactory;
 
 /**
@@ -15,7 +14,6 @@ use Magento\Framework\Api\ExtensionAttributesFactory;
  */
 class Block implements BlockInterface
 {
-
 
     /**
      * @var string
