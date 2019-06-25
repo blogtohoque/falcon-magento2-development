@@ -62,10 +62,10 @@ class GetStaticPageData implements GetStaticPageDataInterface
         $filteredPageContent = $this->filter->filter($pageObject->getContent());
         return $this->pageFactory->create(
             [
-                'content' => $filteredPageContent,
-                'metaTitle' => $pageObject->getMetaTitle(),
-                'metaDescription' => $pageObject->getMetaDescription(),
-                'metaKeywords' => $pageObject->getMetaKeywords()
+                'content' => (string)$filteredPageContent,
+                'metaTitle' => (string)$pageObject->getMetaTitle(),
+                'metaDescription' => (string)$pageObject->getMetaDescription(),
+                'metaKeywords' => (string)$pageObject->getMetaKeywords()
             ]
         );
     }
