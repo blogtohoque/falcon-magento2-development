@@ -203,3 +203,4 @@ Magento/Customer/Model/FileUploaderDataResolver.php
 Magento/Customer/Model/Customer/DataProvider.php
 Test/_files
 app/code/Magento
+app/etc
