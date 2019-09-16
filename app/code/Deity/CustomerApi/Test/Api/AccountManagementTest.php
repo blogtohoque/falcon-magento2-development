@@ -26,7 +26,6 @@ class AccountManagementTest extends WebapiAbstract
                 'httpMethod' => \Magento\Framework\Webapi\Rest\Request::HTTP_METHOD_GET
             ],
         ];
-        var_dump($path);
         $this->assertTrue($this->_webApiCall($serviceInfo));
     }
 }
