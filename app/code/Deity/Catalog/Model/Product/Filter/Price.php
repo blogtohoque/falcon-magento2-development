@@ -135,7 +135,17 @@ class Price implements FilterDataRendererInterface
      */
     private function renderRangeLabel($priceRange)
     {
-        list($fromPrice, $toPrice) = explode('-', $priceRange);
+        if (strpos($priceRange, '-') === false) {
+            $fromPrice = $priceRange;
+            $toPrice = '';
+        } else {
+            list($fromPrice, $toPrice) = explode('-', $priceRange);
+        }
+
+        if ($fromPrice === '') {
+            $formattedFromPrice = $this->priceCurrency->format($toPrice);
+            return __('Less than %1', $formattedFromPrice);
+        }
         $formattedFromPrice = $this->priceCurrency->format($fromPrice);
         if ($toPrice === '') {
             return __('%1 and above', $formattedFromPrice);
