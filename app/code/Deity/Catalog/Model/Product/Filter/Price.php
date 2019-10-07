@@ -93,7 +93,7 @@ class Price implements FilterDataRendererInterface
         );
         $magentoOptions = $magentoFilter->getItems();
 
-        if (empty($magentoOptions)) {
+        if (!empty($selectedValues)) {
             //price filter options can return empty
             /** @var FilterOptionInterface $filterOption */
             $filterOption =$this->filterOptionFactory->create(
