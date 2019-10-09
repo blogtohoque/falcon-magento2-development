@@ -136,8 +136,7 @@ class Price implements FilterDataRendererInterface
     private function renderRangeLabel($priceRange)
     {
         if (strpos($priceRange, '-') === false) {
-            $fromPrice = $priceRange;
-            $toPrice = '';
+            return $this->priceCurrency->format($priceRange);
         } else {
             list($fromPrice, $toPrice) = explode('-', $priceRange);
         }
