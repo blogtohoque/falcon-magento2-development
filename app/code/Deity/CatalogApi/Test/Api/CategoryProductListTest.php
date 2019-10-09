@@ -292,7 +292,11 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(0, $response[ProductSearchResultsInterface::KEY_TOTAL_COUNT], 'No products expected');
 
-        $this->assertEquals(1, count($response[ProductSearchResultsInterface::KEY_FILTERS]), 'At least one filter is expected');
+        $this->assertEquals(
+            1,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
 
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
@@ -321,7 +325,11 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(1, $response['total_count'], 'One product expected');
 
-        $this->assertGreaterThan(0, count($response[ProductSearchResultsInterface::KEY_FILTERS]), 'At least one filter is expected');
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
 
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
@@ -350,7 +358,11 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(2, $response['total_count'], 'Two products expected');
 
-        $this->assertGreaterThan(0, count($response[ProductSearchResultsInterface::KEY_FILTERS]), 'At least one filter is expected');
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
 
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
@@ -379,7 +391,11 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(1, $response['total_count'], 'One product expected');
 
-        $this->assertGreaterThan(0, count($response[ProductSearchResultsInterface::KEY_FILTERS]), 'At least one filter is expected');
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
 
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
@@ -408,7 +424,11 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(2, $response['total_count'], 'Two products expected with price over 30');
 
-        $this->assertGreaterThan(0, count($response[ProductSearchResultsInterface::KEY_FILTERS]), 'At least one filter is expected');
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
 
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
@@ -437,7 +457,11 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(1, $response['total_count'], 'One product expected with price over 60');
 
-        $this->assertGreaterThan(0, count($response[ProductSearchResultsInterface::KEY_FILTERS]), 'At least one filter is expected');
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
 
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
@@ -466,7 +490,11 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(0, $response['total_count'], 'No products expected');
 
-        $this->assertGreaterThan(0, count($response[ProductSearchResultsInterface::KEY_FILTERS]), 'At least one filter is expected');
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
 
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
@@ -495,7 +523,11 @@ class CategoryProductListTest extends WebapiAbstract
 
         $this->assertEquals(3, $response['total_count'], 'Three product expected');
 
-        $this->assertGreaterThan(0, count($response[ProductSearchResultsInterface::KEY_FILTERS]), 'At least one filter is expected');
+        $this->assertGreaterThan(
+            0,
+            count($response[ProductSearchResultsInterface::KEY_FILTERS]),
+            'At least one filter is expected'
+        );
 
         $option = $this->extractPriceFilterOptions($response[ProductSearchResultsInterface::KEY_FILTERS]);
 
@@ -519,7 +551,7 @@ class CategoryProductListTest extends WebapiAbstract
      */
     private function extractPriceFilterOptions($filters)
     {
-        $priceFilter = array_filter($filters, function($filter) {
+        $priceFilter = array_filter($filters, function ($filter) {
             if ($filter['code'] == 'price') {
                 return true;
             }
