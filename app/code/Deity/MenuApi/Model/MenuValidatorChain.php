@@ -63,6 +63,6 @@ class MenuValidatorChain implements MenuValidatorInterface
             }
         }
 
-        return $this->validationResultFactory->create(['errors' => array_merge(...$errors)]);
+        return $this->validationResultFactory->create(['errors' => array_merge(array_values($errors))]);
     }
 }
