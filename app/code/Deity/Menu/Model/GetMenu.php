@@ -114,7 +114,7 @@ class GetMenu implements GetMenuInterface
                 __('Data validation failed. Please check source data.'),
                 null,
                 0,
-                $this->validationResultFactory->create(['errors' => array_unique($this->errors)])
+                $this->validationResultFactory->create(['errors' => array_merge(...$this->errors)])
             );
         }
         return $menuTree;
