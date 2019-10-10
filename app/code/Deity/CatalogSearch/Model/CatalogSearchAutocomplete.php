@@ -50,6 +50,6 @@ class CatalogSearchAutocomplete implements SearchAutocompleteInterface
             $data[] = $dataProvider->getAutocompleteItemsForQuery($q);
         }
 
-        return array_unique($data);
+        return array_merge(...$data);
     }
 }
