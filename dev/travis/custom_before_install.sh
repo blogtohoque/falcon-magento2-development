@@ -8,6 +8,8 @@ trap '>&2 echo Error: Command \`$BASH_COMMAND\` on line $LINENO failed with exit
 
 if [ $TEST_SUITE = "api-functional" ]; then
     # Install apache
+    curl -s https://packagecloud.io/install/repositories/computology/apt-backport/script.deb.sh | sudo bash
+    sudo apt-get install apt=1.2.10
     sudo apt-get update
     sudo apt-get install apache2 libapache2-mod-fastcgi
     if [ ${TRAVIS_PHP_VERSION:0:1} == "7" ]; then
