@@ -34,7 +34,6 @@ class InputConfig implements InputConfigInterface
         $this->value = $value;
     }
 
-
     /**
      * Get configuration name
      *

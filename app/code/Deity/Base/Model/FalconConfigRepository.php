@@ -27,7 +27,7 @@ class FalconConfigRepository implements FalconConfigRepositoryInterface
     /**
      * @var Config
      */
-    private  $configResource;
+    private $configResource;
 
     /**
      * @var TypeListInterface
@@ -40,8 +40,11 @@ class FalconConfigRepository implements FalconConfigRepositoryInterface
      * @param Config $configResource
      * @param TypeListInterface $cacheList
      */
-    public function __construct(ConfigurationMapperInterface $configurationMapper, Config $configResource, TypeListInterface $cacheList)
-    {
+    public function __construct(
+        ConfigurationMapperInterface $configurationMapper,
+        Config $configResource,
+        TypeListInterface $cacheList
+    ) {
         $this->configurationMapper = $configurationMapper;
         $this->configResource = $configResource;
         $this->cacheList = $cacheList;

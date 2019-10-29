@@ -58,7 +58,6 @@ class ConfigurationMapperTest extends TestCase
             $errors = $e->getErrors();
             $this->assertEquals(2, count($errors), 'There should be at least 2 errors provided');
         }
-
     }
 
     public function testProcessConfigurationInput()
@@ -75,6 +74,5 @@ class ConfigurationMapperTest extends TestCase
         $this->assertTrue(array_key_exists('some/path', $values), "Config value should be mapped");
 
         $this->assertEquals($values['some/path'], 'testValue', "Config value should be preserved");
-
     }
 }
