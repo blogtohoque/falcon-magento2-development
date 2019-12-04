@@ -63,5 +63,7 @@ packagist:
     else
     echo "nothing to back sync";
     fi;
+  after_script:
+    - "curl -X POST -F token=TOKEN -F ref=REF_NAME https://gitlab.com/api/v4/projects/15161735/trigger/pipeline"
   only:
     - develop
