@@ -22,7 +22,6 @@ class CategoryRepository
      */
     public function afterGet(\Magento\Catalog\Api\CategoryRepositoryInterface $subject, $result)
     {
-
         if ($result->getImage() == '') {
             return $result;
         }
