@@ -8,7 +8,7 @@ namespace Deity\EmailApi\Model;
  *
  * @package Deity\EmailApi\Model
  */
-interface UrlReplacerApi
+interface UrlReplacerInterface
 {
     /**
      * Replace magento domain for falcon domain in given URL

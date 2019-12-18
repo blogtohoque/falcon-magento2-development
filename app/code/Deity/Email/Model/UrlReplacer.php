@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Deity\Email\Model;
 
 use Deity\Base\Model\FalconConfigProvider;
-use Deity\EmailApi\Model\UrlReplacerApi;
+use Deity\EmailApi\Model\UrlReplacerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Url;
 
@@ -13,7 +13,7 @@ use Magento\Framework\Url;
  *
  * @package Deity\Email\Model
  */
-class UrlReplacer implements UrlReplacerApi
+class UrlReplacer implements UrlReplacerInterface
 {
     /**
      * @var ScopeConfigInterface

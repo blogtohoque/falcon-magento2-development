@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Deity\Email\Plugin\Model;
 
-use Deity\EmailApi\Model\UrlReplacerApi;
+use Deity\EmailApi\Model\UrlReplacerInterface;
 
 /**
  * Class Template
@@ -13,19 +13,28 @@ use Deity\EmailApi\Model\UrlReplacerApi;
 class Template
 {
     /**
-     * @var UrlReplacerApi
+     * @var UrlReplacerInterface
      */
     private $urlReplacer;
 
     /**
-     * UrlDecorator constructor.
-     * @param UrlReplacerApi $urlReplacer
+     * Template constructor.
+     *
+     * @param UrlReplacerInterface $urlReplacer
      */
-    public function __construct(UrlReplacerApi $urlReplacer)
+    public function __construct(UrlReplacerInterface $urlReplacer)
     {
         $this->urlReplacer = $urlReplacer;
     }
 
+    /**
+     * After plugin
+     *
+     * @param \Magento\Email\Model\Template $subject
+     * @param string $result
+     * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function afterGetUrl(\Magento\Email\Model\Template $subject, $result)
     {
         return $this->urlReplacer->replaceLinkToFalcon($result);
