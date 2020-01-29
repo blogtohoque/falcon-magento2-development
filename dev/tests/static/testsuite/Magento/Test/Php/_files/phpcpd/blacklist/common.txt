@@ -218,5 +218,3 @@ Magento/InventoryReservationCli/Test/Integration
 Magento/InventoryAdminUi/Controller/Adminhtml
 Magento/Newsletter/Model/Queue
 Magento/Framework/Mail/Template
-app/code/Magento
-app/etc
