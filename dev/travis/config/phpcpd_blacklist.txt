@@ -1,3 +1,4 @@
 Test/_files
 app/code/Magento
+app/code/Deity
 app/etc

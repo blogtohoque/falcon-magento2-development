@@ -220,4 +220,5 @@ Magento/Newsletter/Model/Queue
 Magento/Framework/Mail/Template
 Test/_files
 app/code/Magento
+app/code/Deity
 app/etc
