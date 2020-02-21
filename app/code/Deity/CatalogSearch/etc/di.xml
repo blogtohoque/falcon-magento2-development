@@ -25,10 +25,18 @@
         </arguments>
     </virtualType>
 
+    <virtualType name="Deity\CatalogSearch\VirtualType\Model\SearchCriteria\CollectionProcessor\FilterProcessor" type="Deity\Catalog\Model\SearchCriteria\CollectionProcessor\FilterProcessor">
+        <arguments>
+            <argument name="customFilters" xsi:type="array">
+                <item name="cat" xsi:type="object">Deity\CatalogSearch\Model\SearchCriteria\CollectionProcessor\FilterProcessor\ProductCategoryFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
     <virtualType name="Deity\CatalogSearch\VirtualType\Model\Api\SearchCriteria\ProductCollectionProcessor" type="Magento\Eav\Model\Api\SearchCriteria\CollectionProcessor">
         <arguments>
             <argument name="processors" xsi:type="array">
-                <item name="filters" xsi:type="object">Deity\Catalog\Model\SearchCriteria\CollectionProcessor\FilterProcessor</item>
+                <item name="filters" xsi:type="object">Deity\CatalogSearch\VirtualType\Model\SearchCriteria\CollectionProcessor\FilterProcessor</item>
                 <item name="sorting" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\SortingProcessor</item>
                 <item name="pagination" xsi:type="object">Magento\Framework\Api\SearchCriteria\CollectionProcessor\PaginationProcessor</item>
             </argument>
@@ -38,6 +46,9 @@
     <virtualType name="Deity\CatalogSearchApi\VirtualType\Model\ProductFilterProvider" type="Deity\Catalog\Model\ProductFilterProvider">
         <arguments>
             <argument name="filterList" xsi:type="object">searchFilterList</argument>
+            <argument name="filterRenderers" xsi:type="array">
+                <item name="category" xsi:type="object">Deity\CatalogSearch\Model\Product\Filter\Category</item>
+            </argument>
         </arguments>
     </virtualType>
 
